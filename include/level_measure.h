@@ -29,8 +29,8 @@ TimerHandle_t level_measurementTimer;
 // #define N_SAMPLES 5
 
 // Distancia a los lleno y vacío
-#define FULL_DISTANCE 300
-#define EMPTY_DISTANCE 3500
+#define FULL_DISTANCE 250
+#define EMPTY_DISTANCE 3150
 
 // Método que inicia la secuencia del Trigger para comenzar a medir
 void init_ultrasonic_sensor()
@@ -91,13 +91,21 @@ void level_measurement()
         }
         else
         {
-
             DEBUG_PRINT("Medida distancia incorrecta");
         }
     }
 
     // Calcula el nivel de liquido y lo envia mediante LoRa
     int measure_water = map((EMPTY_DISTANCE - distance), 0, (EMPTY_DISTANCE - FULL_DISTANCE), 0, 100);
+
+    if (measure_water < 0)
+    {
+        measure_water = 0;
+    }
+    if (measure_water > 100)
+    {
+        measure_water = 100;
+    }
 
     // Envia los datos mediante lora
     sendDataLora((String)nivelDepGaloBajo + "=" + (String)measure_water);
