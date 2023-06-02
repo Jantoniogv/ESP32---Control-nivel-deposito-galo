@@ -15,7 +15,7 @@
 void setup()
 {
   // Borra todas las claves del espacio de nombres en memoria
-  eraseFlash("config");
+  // eraseFlash("config");
 
   // Inicializa el objeto con la variables de configuracion
   Config configData;
