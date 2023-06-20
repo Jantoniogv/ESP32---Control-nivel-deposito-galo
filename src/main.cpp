@@ -38,9 +38,6 @@ void setup()
   // Inicia y configura el servidor web
   init_server();
 
-  // Inicia el sensor de ultrasonidos encargado de medir el nivel de agua en el deposito
-  init_ultrasonic_sensor();
-
   // Inicia el temporizador encargado de medir el nivel del deposito periodicamente
   level_measurementTimer = xTimerCreate("level_measure", pdMS_TO_TICKS(10000), pdTRUE, (void *)0, reinterpret_cast<TimerCallbackFunction_t>(level_measurement));
   xTimerStart(level_measurementTimer, 0);

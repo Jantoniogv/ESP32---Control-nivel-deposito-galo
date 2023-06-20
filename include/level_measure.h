@@ -8,7 +8,7 @@
 #include "debug_utils.h"
 #include "log.h"
 
-#define DEBUG
+// #define DEBUG
 
 // Topic enviar nivel
 const char nivelDepGaloBajo[] = "nivel/deposito/galo/bajo";
@@ -19,7 +19,7 @@ TimerHandle_t level_measurementTimer;
 //***** NIVEL POR ULTRASONIDOS *****************************//
 //**********************************************************//
 
-// Configuramos los pines del sensor Trigger y Echo
+/* // Configuramos los pines del sensor Trigger y Echo
 #define PIN_TX 25
 #define PIN_RX 36
 
@@ -115,6 +115,74 @@ void level_measurement()
 
     DEBUG_PRINT(measure_water);
     DEBUG_PRINT(" %");
+} */
+
+//**********************************************************//
+//***** NIVEL POR SONDA DE PRESION 5 M DE 4 mA a 20 mA *****************************//
+//**********************************************************//
+
+// Configura el pin de medida
+#define PIN_MEASURE_LEVEL 36
+
+// Número de muestras
+#define N_SAMPLES 50
+
+// ALtura columna agua deposito lleno y vacío
+#define HEIGHT_FULL 315 // Altura columna agua deposito lleno en centimetros
+#define HEIGHT_EMPTY 0  // Altura columna agua deposito vacio en centimetros
+
+// Porcentaje deposito lleno y vacío
+#define POR_FULL 100 // Porcentaje deposito lleno
+#define POR_EMPTY 0  // Porcentaje deposito vacio
+
+// Valores analogicos medidos deposito lleno y vacio
+#define VALUE_FULL 2072 // Valor medido cuando el deposito de 3,15 m esta lleno
+#define VALUE_EMPTY 658 // Valor medido cuando el deposito esta vacio
+
+// Funcion que obtiene la distancia libre de agua que queda en el deposito
+// Toma el numero de muestras definido y calcula el nivel del deposito
+void level_measurement()
+{
+    // Variable que almacena el valor medio medido y sus sumas consecutivas, a fin de calcular el valor promedio
+    int val = 0;
+
+    // Variable que almacena el valor medio medido
+    int val_promedio = 0;
+
+    for (int i = 0; i < N_SAMPLES; i++)
+    {
+        val += analogRead(PIN_MEASURE_LEVEL);
+    }
+
+    // Calcula el valor medio medido
+    val_promedio = val / N_SAMPLES;
+
+    // Corrige posibles valores extremos
+    if (val_promedio > VALUE_FULL)
+    {
+        val_promedio = VALUE_FULL;
+    }
+
+    if (val_promedio < VALUE_EMPTY)
+    {
+        val_promedio = VALUE_EMPTY;
+    }
+
+    // Calcula la altura de columna de liquido
+    int altura_agua = map(val_promedio, VALUE_EMPTY, VALUE_FULL, HEIGHT_EMPTY, HEIGHT_FULL);
+
+    // Calcula el nivel de liquido y lo envia mediante LoRa
+    int nivel_agua = map(val_promedio, VALUE_EMPTY, VALUE_FULL, 0, 100);
+
+    // Envia los datos mediante lora
+    sendDataLora((String)nivelDepGaloBajo + "=" + (String)nivel_agua);
+
+    // Imprime los datos por monitor serie y los registra en el log
+    DEBUG_PRINT((String)altura_agua + " cm");
+    write_log("Corriente electrica: " + (String)altura_agua + " cm");
+
+    DEBUG_PRINT((String)nivel_agua + " %");
+    write_log("Corriente electrica: " + (String)nivel_agua + " %");
 }
 
 #endif // _LEVEL_MEASURE_H_
