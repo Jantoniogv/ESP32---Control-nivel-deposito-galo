@@ -137,7 +137,10 @@ void level_measurement()
 
 // Valores analogicos medidos deposito lleno y vacio
 #define VALUE_FULL 2072 // Valor medido cuando el deposito de 3,15 m esta lleno
+                        // #define VALUE_FULL 2308 // Valor medido cuando el deposito de 3,15 m esta lleno
+
 #define VALUE_EMPTY 658 // Valor medido cuando el deposito esta vacio
+// #define VALUE_EMPTY 670 // Valor medido cuando el deposito esta vacio
 
 // Funcion que obtiene la distancia libre de agua que queda en el deposito
 // Toma el numero de muestras definido y calcula el nivel del deposito
@@ -178,11 +181,14 @@ void level_measurement()
     sendDataLora((String)nivelDepGaloBajo + "=" + (String)nivel_agua);
 
     // Imprime los datos por monitor serie y los registra en el log
-    DEBUG_PRINT((String)altura_agua + " cm");
-    write_log("Corriente electrica: " + (String)altura_agua + " cm");
+    DEBUG_PRINT("Altura columna agua: " + (String)altura_agua + " cm");
+    write_log("Altura columna agua: " + (String)altura_agua + " cm");
 
-    DEBUG_PRINT((String)nivel_agua + " %");
-    write_log("Corriente electrica: " + (String)nivel_agua + " %");
+    DEBUG_PRINT("Nivel agua: " + (String)nivel_agua + " %");
+    write_log("Nivel agua: " + (String)nivel_agua + " %");
+
+    DEBUG_PRINT((String)val_promedio + " anlg");
+    write_log("Valor analogico medio medido: " + (String)val_promedio);
 }
 
 #endif // _LEVEL_MEASURE_H_
