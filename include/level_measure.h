@@ -128,7 +128,7 @@ void level_measurement()
 #define N_SAMPLES 50
 
 // ALtura columna agua deposito lleno y vacío
-#define HEIGHT_FULL 315 // Altura columna agua deposito lleno en centimetros
+#define HEIGHT_FULL 310 // Altura columna agua deposito lleno en centimetros
 #define HEIGHT_EMPTY 0  // Altura columna agua deposito vacio en centimetros
 
 // Porcentaje deposito lleno y vacío
@@ -136,11 +136,9 @@ void level_measurement()
 #define POR_EMPTY 0  // Porcentaje deposito vacio
 
 // Valores analogicos medidos deposito lleno y vacio
-#define VALUE_FULL 2072 // Valor medido cuando el deposito de 3,15 m esta lleno
-                        // #define VALUE_FULL 2308 // Valor medido cuando el deposito de 3,15 m esta lleno
+#define VALUE_FULL 2226 // Valor medido cuando el deposito de 3,15 m esta lleno
 
-#define VALUE_EMPTY 658 // Valor medido cuando el deposito esta vacio
-// #define VALUE_EMPTY 670 // Valor medido cuando el deposito esta vacio
+#define VALUE_EMPTY 553 // Valor medido cuando el deposito esta vacio
 
 // Funcion que obtiene la distancia libre de agua que queda en el deposito
 // Toma el numero de muestras definido y calcula el nivel del deposito
@@ -175,7 +173,7 @@ void level_measurement()
     int altura_agua = map(val_promedio, VALUE_EMPTY, VALUE_FULL, HEIGHT_EMPTY, HEIGHT_FULL);
 
     // Calcula el nivel de liquido y lo envia mediante LoRa
-    int nivel_agua = map(val_promedio, VALUE_EMPTY, VALUE_FULL, 0, 100);
+    int nivel_agua = map(val_promedio, VALUE_EMPTY, VALUE_FULL, POR_EMPTY, POR_FULL);
 
     // Envia los datos mediante lora
     sendDataLora((String)nivelDepGaloBajo + "=" + (String)nivel_agua);
@@ -188,7 +186,7 @@ void level_measurement()
     write_log("Nivel agua: " + (String)nivel_agua + " %");
 
     DEBUG_PRINT((String)val_promedio + " anlg");
-    write_log("Valor analogico medio medido: " + (String)val_promedio);
+    write_log("Valor analogico medio: " + (String)val_promedio);
 }
 
 #endif // _LEVEL_MEASURE_H_
