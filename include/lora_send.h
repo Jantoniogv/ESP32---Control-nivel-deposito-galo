@@ -6,17 +6,16 @@
 #include "log.h"
 
 #include "debug_utils.h"
-#define DEBUG
+// #define DEBUG
 
 void sendDataLora(String data)
 {
-    DEBUG_PRINT(data);
-
     // send packet
     LoRa.beginPacket();
     LoRa.print(data);
     LoRa.endPacket();
 
+    DEBUG_PRINT("send LoRa: " + data);
     write_log("send LoRa: " + data);
 }
 

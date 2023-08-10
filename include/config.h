@@ -9,7 +9,7 @@
 #include "save_flash.h"
 #include "config_init.h"
 
-#define DEBUG
+// #define DEBUG
 #include "debug_utils.h"
 
 class Config

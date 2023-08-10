@@ -6,7 +6,7 @@
 #include "config.h"
 #include "log.h"
 
-#define DEBUG
+// #define DEBUG
 #include "debug_utils.h"
 
 void wifiConfigSTA(IPAddress local_ip, IPAddress gateway, IPAddress subnet, IPAddress dns1 = (uint32_t)0x00000000, IPAddress dns2 = (uint32_t)0x00000000)

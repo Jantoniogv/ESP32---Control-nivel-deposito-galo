@@ -4,11 +4,10 @@
 #include "Arduino.h"
 
 #include "lora_send.h"
-
-#include "debug_utils.h"
 #include "log.h"
 
 // #define DEBUG
+#include "debug_utils.h"
 
 // Topic enviar nivel
 const char nivelDepGaloBajo[] = "nivel/deposito/galo/bajo";
