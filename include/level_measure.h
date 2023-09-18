@@ -127,7 +127,7 @@ void level_measurement()
 #define N_SAMPLES 50
 
 // ALtura columna agua deposito lleno y vacío
-#define HEIGHT_FULL 310 // Altura columna agua deposito lleno en centimetros
+#define HEIGHT_FULL 300 // Altura columna agua deposito lleno en centimetros
 #define HEIGHT_EMPTY 0  // Altura columna agua deposito vacio en centimetros
 
 // Porcentaje deposito lleno y vacío
@@ -135,9 +135,13 @@ void level_measurement()
 #define POR_EMPTY 0  // Porcentaje deposito vacio
 
 // Valores analogicos medidos deposito lleno y vacio
-#define VALUE_FULL 2226 // Valor medido cuando el deposito de 3,15 m esta lleno
+#define VALUE_FULL 2050 // Valor medido cuando el deposito de 3,10 m esta lleno
 
-#define VALUE_EMPTY 553 // Valor medido cuando el deposito esta vacio
+// #define VALUE_FULL 2120 // Valor provisional, cuando el deposito de 3,10 m esta lleno
+
+#define VALUE_EMPTY 490 // Valor medido cuando el deposito esta vacio
+
+// #define VALUE_EMPTY 450 // Valor provisional, medido cuando el deposito esta vacio
 
 // Funcion que obtiene la distancia libre de agua que queda en el deposito
 // Toma el numero de muestras definido y calcula el nivel del deposito
