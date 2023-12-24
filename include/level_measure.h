@@ -5,6 +5,7 @@
 
 #include "lora_send.h"
 #include "log.h"
+#include "sleep_config.h"
 
 // #define DEBUG
 #include "debug_utils.h"
@@ -12,6 +13,10 @@
 // Topic enviar nivel
 const char nivelDepGaloBajo[] = "nivel/deposito/galo/bajo";
 
+// Tiempo de inicio del timer de medida del nivel
+#define TEME_MEASURE 5000
+
+// Timer medida nivel de agua
 TimerHandle_t level_measurementTimer;
 
 //**********************************************************//
@@ -190,6 +195,10 @@ void level_measurement()
 
     DEBUG_PRINT((String)val_promedio + " anlg");
     write_log("Valor analogico medio: " + (String)val_promedio);
+
+    xTimerStart(Sleep_Timer, 0);
+
+    write_log("Temporizador modo sleep iniciado...");
 }
 
 #endif // _LEVEL_MEASURE_H_

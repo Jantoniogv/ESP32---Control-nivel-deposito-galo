@@ -124,6 +124,9 @@ const char config_page_html[] = R"rawliteral(
       </div>
       <button class="button-save" type="submit">Guardar y reiniciar</button>
     </form>
+    </div>
+        /reset: resetear ESP32; /restart: reiniciar ESP32; /log: log del ESP32
+    </div>
     <script src="ESPControl.js"></script>
   </body>
 </html>

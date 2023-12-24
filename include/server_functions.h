@@ -9,6 +9,7 @@
 #include "config.h"
 #include "page_config.h"
 #include "log.h"
+#include "sleep_config.h"
 
 // #define DEBUG
 #include "debug_utils.h"
@@ -60,7 +61,9 @@ String htmlConfig()
 void serverHandlers()
 {
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
-            { request->send(200, "text/html", htmlConfig()); });
+            { request->send(200, "text/html", htmlConfig());
+              xTimerStop(Sleep_Timer, 0);
+              write_log("Temporizador modo sleep parado..."); });
 
   server.on("/ESPControl.css", HTTP_GET, [](AsyncWebServerRequest *request)
             { request->send(200, "text/css", config_page_css); });
@@ -193,6 +196,14 @@ void serverHandlers()
               // Borra todas las claves del espacio de nombres en memoria
               eraseFlash("config");
               request->send(200, "text/html", "<h2>Restableciendo todos los valores...</h2>"); 
+              
+              //vTaskDelay(10);
+              ESP.restart(); });
+
+  server.on("/restart", HTTP_GET, [](AsyncWebServerRequest *request)
+            { 
+              // Reinicia el ESP32
+              request->send(200, "text/html", "<h2>Reiniciando ESP32...</h2>"); 
               
               //vTaskDelay(10);
               ESP.restart(); });

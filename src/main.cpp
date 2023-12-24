@@ -7,6 +7,7 @@
 #include "server_functions.h"
 #include "lora_init.h"
 #include "level_measure.h"
+#include "sleep_config.h"
 #include "log.h"
 
 #include "debug_utils.h"
@@ -38,11 +39,17 @@ void setup()
   // Inicia y configura el servidor web
   init_server();
 
-  // Inicia el temporizador encargado de medir el nivel del deposito periodicamente
-  level_measurementTimer = xTimerCreate("level_measure", pdMS_TO_TICKS(10000), pdTRUE, (void *)0, reinterpret_cast<TimerCallbackFunction_t>(level_measurement));
+  // Inicializa el temporizador encargado de medir el nivel del deposito periodicamente
+  level_measurementTimer = xTimerCreate("level_measure", pdMS_TO_TICKS(TEME_MEASURE), pdFALSE, (void *)0, reinterpret_cast<TimerCallbackFunction_t>(level_measurement));
+  // Inicia el timer encargado de iniciar la medida de nivel de agua
   xTimerStart(level_measurementTimer, 0);
 
   write_log("Temporizador de medicion del nivel iniciado...");
+
+  // Inicializa el temporizador encargado de mandar al modo sleep al ESP32
+  Sleep_Timer = xTimerCreate("Sleep_timer", pdMS_TO_TICKS(TIME_INIT_SLEEP), pdFALSE, (void *)0, reinterpret_cast<TimerCallbackFunction_t>(sleep_init));
+
+  write_log("Temporizador modo sleep inicializado...");
 
   // Iniciamos la conexion wifi como cliente
   wifiConnectSTA();

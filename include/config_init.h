@@ -4,6 +4,7 @@
 
 #include <wifi.h>
 
+// Valores iniciales de la configuracion de red
 wifi_mode_t initWifiType = WIFI_MODE_APSTA;
 
 String initSsidSTA = "DIGIFIBRA-Ap99";
